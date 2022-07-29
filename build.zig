@@ -7,6 +7,6 @@ pub fn build(b: *Builder) void {
     const lib = b.addSharedLibrary("img-lib", "src/lib.zig", b.version(0,0,0));
     lib.setBuildMode(mode);
     lib.setTarget(.{.cpu_arch = .wasm32, .os_tag = .freestanding});
-    lib.setOutputDir("www/build");
+    lib.setOutputDir("www/public/build");
     b.default_step.dependOn(&lib.step);
 }
