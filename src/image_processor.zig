@@ -12,12 +12,7 @@ fn clamp(val:anytype) u32 {
 }
 
 pub const ImageProcessor = struct {
-    kernel: [9]i16 = .{
-        -2, -1, 0,
-        -1, 1, 1,
-        0, 1, 2,
-    },
-
+    kernel: *[9]i16 = undefined,
     width: usize,
     height: usize,
     image_data: [*]u8 = undefined,
@@ -30,6 +25,12 @@ pub const ImageProcessor = struct {
 
         var img_data = allocator.alloc(u8, byte_size) catch @panic("alloc err");
         var img_data_swap = allocator.alloc(u8, byte_size) catch @panic("alloc err");
+        var kernel = allocator.alloc(i16, 9) catch unreachable;
+        // kernel = &.{
+        //     -2, -1, 0,
+        //     -1, 1, 1,
+        //     0, 1, 2,
+        // };
 
         ptr.* = ImageProcessor {
             .width = width,
@@ -37,6 +38,7 @@ pub const ImageProcessor = struct {
             .byte_size = byte_size,
             .image_data = @ptrCast([*]u8, img_data) ,
             .image_data_swap = @ptrCast([*]u8, img_data_swap),
+            .kernel = @ptrCast(*[9]i16, kernel),
         };
         return ptr;
     }

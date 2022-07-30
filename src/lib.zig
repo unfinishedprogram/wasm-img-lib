@@ -23,11 +23,15 @@ export fn getImageProcessor(width: usize, height: usize) *ImageProcessor {
 }
 
 export fn getImageBuffer(self: *ImageProcessor) usize {
-    var data = self.image_data;
-
+    const data = self.image_data;
     return @ptrToInt(data);
 }
 
 export fn applyKernel(self: *ImageProcessor) void {
     self.applyKernel();
+}
+
+export fn getKernelBuffer(self: *ImageProcessor) usize {
+    const data = self.kernel;
+    return @ptrToInt(data);
 }
